@@ -34,7 +34,7 @@ class Camera(object):
         self.height = 512
 
     def __del__(self):
-        c = self.context
+        c = self.camera
         if not c:
             return
 #        try:
@@ -87,14 +87,17 @@ class Camera(object):
     def grabImageToBuffer(self):
         #setup stream
         stream = BytesIO()
+	print "stream opened"
         #grab yuv image to stream
         self.camera.capture(stream,format='yuv')
+	print "stream captured"
         #seek back to start of stream
         stream.seek(0)
         #pull out the Y channel (luminessence) as 8 bit grey
         imgConv = np.fromfile(stream, dtype=np.uint8,
                               count=self.width*self.height).reshape((self.height,
                                                                      self.width))
+	print "imagesize",np.shape(imgConv)
         self.lastImage = imgConv
 
     def getImageSize(self):
