@@ -77,20 +77,18 @@ class Camera(object):
 
 
     def grabImageToDisk(self, outFileName='picam-Test.png'):
-        c = self.camera
         stream = BytesIO()
-        self.c.capture(stream,format='yuv')
+        self.camera.capture(stream,format='yuv')
         stream.seek(0)
         open(outFileName, 'wb').write(stream.getvalue())
        
 
     
     def grabImageToBuffer(self):
-        c = self.camera 
         #setup stream
         stream = BytesIO()
         #grab yuv image to stream
-        self.c.capture(stream,format='yuv')
+        self.camera.capture(stream,format='yuv')
         #seek back to start of stream
         stream.seek(0)
         #pull out the Y channel (luminessence) as 8 bit grey
