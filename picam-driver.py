@@ -37,10 +37,10 @@ class Camera(object):
         c = self.context
         if not c:
             return
-        try:
-            #no current shutdown instructions
-        except:
-            pass
+#        try:
+#            #no current shutdown instructions
+#        except:
+#            pass
 
 
     def connect(self, index=0):
