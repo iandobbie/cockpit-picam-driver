@@ -85,8 +85,8 @@ class Camera(object):
 
     
     def grabImageToBuffer(self):
-        #setup stream
-        stream = BytesIO()
+        #setup stream, numpy from file only acepts a real file so....
+        stream = open('image.data', 'w+b')
 	print "stream opened"
         #grab yuv image to stream
         self.camera.capture(stream,format='yuv')
