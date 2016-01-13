@@ -46,12 +46,12 @@ class Camera(object):
     def connect(self, index=0):
         if not self.camera:
             self.camera  = picamera.PiCamera()
-        if not self.camera
+        if not self.camera:
             raise Exception('No camera found.')
 
         #picam setup
         #set max resolutioon for still capture
-        self.camera.resolution = (width, height)
+        self.camera.resolution = (self.width, self.height)
         # use string CAMERA_RESOLUTION to get max resolution
         self.connected = True
 
