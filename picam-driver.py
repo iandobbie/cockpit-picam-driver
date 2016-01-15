@@ -97,8 +97,7 @@ class Camera(object):
         imgConv = np.fromfile(stream, dtype=np.uint8,
                               count=self.width*self.height).reshape((self.height,
                                                                      self.width))
-        print "pixel 256,256",imgConv[256][256]
-        self.lastImage = imgConv
+          self.lastImage = imgConv
 
     def getImageSize(self):
         width, height = self.width, self.height
@@ -136,8 +135,6 @@ class Camera(object):
     def softTrigger(self):
         if self.client is not None:
             self.grabImageToBuffer()
-            print "pixel",self.lastImage[256][256]
-            print "size",np.shape(self.lastImage)
             self.client.receiveData('new image',
                                      self.lastImage,
                                      time.time())
