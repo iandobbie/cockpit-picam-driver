@@ -87,17 +87,15 @@ class Camera(object):
     def grabImageToBuffer(self):
         #setup stream, numpy from file only acepts a real file so....
         stream = open('image.data', 'w+b')
-	print "stream opened"
         #grab yuv image to stream
         self.camera.capture(stream,format='yuv')
-	print "stream captured"
         #seek back to start of stream
         stream.seek(0)
         #pull out the Y channel (luminessence) as 8 bit grey
         imgConv = np.fromfile(stream, dtype=np.uint8,
                               count=self.width*self.height).reshape((self.height,
                                                                      self.width))
-	print "imagesize",np.shape(imgConv)
+        print "pixel 256,256",imgConv[256][256]
         self.lastImage = imgConv
 
     def getImageSize(self):
@@ -134,6 +132,8 @@ class Camera(object):
     def softTrigger(self):
         if self.client is not None:
             self.grabImageToBuffer()
+            print "pixel",self.lastImage[256][256]
+            print "size",np.shape(self.lastImage)
             self.client.receiveData('new image',
                                      self.lastImage,
                                      time.time())
@@ -149,7 +149,7 @@ class Camera(object):
 
 def main():
     print sys.argv
-    host = 'localhost' or sys.argv[1]
+    host = '10.0.0.2' or sys.argv[1]
     port = 8000 or int(sys.argv[2])
     daemon = Pyro4.Daemon(port=port, host=host)
 
