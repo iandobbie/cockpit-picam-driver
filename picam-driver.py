@@ -16,6 +16,10 @@ import time
 import picamera
 from io import BytesIO
 
+#to enable control of the camera LED
+import RPi.GPIO as GPIO
+
+
 Pyro4.config.SERIALIZER = 'pickle'
 Pyro4.config.SERIALIZERS_ACCEPTED.add('pickle')
 
@@ -32,7 +36,8 @@ class Camera(object):
         self.imgRaw = None
         self.width = 512
         self.height = 512
-
+        
+        
     def __del__(self):
         c = self.camera
         if not c:
@@ -54,7 +59,12 @@ class Camera(object):
         self.camera.resolution = (self.width, self.height)
         # use string CAMERA_RESOLUTION to get max resolution
         self.connected = True
+        #disable camera LED by default
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(5, GPIO.OUT, initial=False)
 
+        
 
     def enableCamera(self):
         if not self.connected: self.connect()
@@ -128,7 +138,9 @@ class Camera(object):
     def setImageSize(self, size):
         pass
 
-
+    def setLED(self, state=False):
+        GPIO.output(5, state)
+    
     def softTrigger(self):
         if self.client is not None:
             self.grabImageToBuffer()
