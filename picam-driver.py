@@ -68,21 +68,13 @@ class Camera(object):
 
     def enableCamera(self):
         if not self.connected: self.connect()
-        c = self.camera
-#        if self.imgRaw:
-#            dll.fc2DestroyImage(self.imgRaw)
-#        self.imgRaw = Fc2Image()
-#        dll.fc2CreateImage(byref(self.imgRaw))
-#        dll.fc2StartCapture(c)
         return True
 
 
     def disableCamera(self):
         if not self.connected or not self.camera:
             return
-        c = self.camera
-#        dll.fc2StopCapture(c)
-#        dll.fc2DestroyImage(self.imgRaw)
+        self.camera.close()
         return False
 
 
